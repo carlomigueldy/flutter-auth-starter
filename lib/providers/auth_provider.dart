@@ -9,10 +9,8 @@ class AuthProvider extends ChangeNotifier {
   String _token;
   String _tokenType;
   Map _user;
-  bool _loggedIn = false;
 
   Map get user => _user;
-  bool get loggedIn => _loggedIn;
   String get token => _token;
   String get tokenType => _tokenType;
   String get fullName {
@@ -28,10 +26,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLoggedIn(value) {
-    _loggedIn = value;
-    notifyListeners();
-  }
+  /// evaluates if user is authenticated
+  Future<bool> get loggedIn async => await this.getToken() != null;
 
   /// Get the user
   void fetchUser() async {
@@ -48,13 +44,11 @@ class AuthProvider extends ChangeNotifier {
     Response response = await _authService.authenticate(email, password);
 
     if (response.statusCode != 200) {
-      setLoggedIn(false);
       return response.statusCode;
     }
 
     var data = jsonDecode(response.body);
     storeToken(data['access_token'], data['token_type']);
-    setLoggedIn(true);
     return response.statusCode;
   }
 
@@ -62,12 +56,10 @@ class AuthProvider extends ChangeNotifier {
   Future<int> logout() async {
     Response response = await _authService.unauthenticate();
     if (response.statusCode != 200) {
-      setLoggedIn(true);
       return response.statusCode;
     }
 
     destroyToken();
-    setLoggedIn(false);
     return response.statusCode;
   }
 

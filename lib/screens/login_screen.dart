@@ -19,9 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       auth.fetchUser();
 
-      if (auth.loggedIn) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+      if (await auth.loggedIn) {
+        print('[Authentication] You are logged in');
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       }
     });
   }

@@ -13,11 +13,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final AuthProvider auth =
           Provider.of<AuthProvider>(context, listen: false);
 
       auth.fetchUser();
+
+      if (!await auth.loggedIn) {
+        print('[Authentication] You are not logged in, please login.');
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/login', (route) => false);
+      }
+
+      print('[Authentication] ...');
+      print('is logged in? ${await auth.loggedIn}');
     });
   }
 
@@ -38,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () async {
                   if (await auth.logout() == 200) {
                     Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/', (route) => false);
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
                   }
                 },
                 child: Text(
@@ -64,11 +73,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ))),
-                FlatButton(
-                  onPressed: () => print('new task'),
-                  child: Text('Create new Task'),
-                  textColor: Colors.white,
-                  color: Colors.indigo,
+                SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  height: 50.0,
+                  width: 200,
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    onPressed: () => Navigator.of(context).pushNamed('/tasks'),
+                    child: Text('See all Tasks'),
+                    textColor: Colors.white,
+                    color: Colors.indigo,
+                  ),
                 )
               ],
             ),

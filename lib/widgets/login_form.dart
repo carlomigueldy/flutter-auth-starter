@@ -59,7 +59,7 @@ class LoginForm extends StatelessWidget {
                         emailController.text, passwordController.text) ==
                     200) {
                   Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/home', (route) => false);
+                      .pushNamedAndRemoveUntil('/', (route) => false);
                 }
               },
             ),
