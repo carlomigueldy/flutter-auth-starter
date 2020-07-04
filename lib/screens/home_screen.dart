@@ -1,4 +1,5 @@
 import 'package:auth_starter/providers/auth_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:websafe_svg/websafe_svg.dart';
@@ -87,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     textColor: Colors.white,
                     color: Colors.indigo,
                   ),
-                )
+                ),
               ],
             ),
           ),

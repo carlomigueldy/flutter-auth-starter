@@ -20,7 +20,7 @@ void main() => runApp(MultiProvider(
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
-        initialRoute: '/',
+        initialRoute: '/login',
         title: 'Daycare App',
         routes: {
           '/': (context) => HomeScreen(),
